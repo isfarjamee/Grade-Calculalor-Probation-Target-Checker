@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRACU CGPA Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --blue:#1a73e8;
+  --blue-dark:#1557b0;
+  --blue-light:#e8f0fe;
+  --blue-mid:#4a90d9;
+  --white:#ffffff;
+  --off-white:#f5f8ff;
+  --text:#111827;
+  --text-muted:#4b5563;
+  --border:#cdd9f0;
+  --accent:#0f4c81;
+  --green:#16a34a;
+  --red:#dc2626;
+  --yellow:#d97706;
+  --card-shadow:0 4px 24px rgba(26,115,232,0.10);
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:linear-gradient(135deg,#e8f0fe 0%,#f0f6ff 50%,#dbeafe 100%);
+  min-height:100vh;
+  padding:24px 16px;
+  color:var(--text);
+}
+
+.wrapper{
+  max-width:860px;
+  margin:auto;
+}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  border-radius:20px;
+  padding:32px 28px;
+  text-align:center;
+  margin-bottom:24px;
+  box-shadow:0 8px 32px rgba(26,115,232,0.25);
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';
+  position:absolute;
+  top:-40px;right:-40px;
+  width:180px;height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.07);
+}
+.header::after{
+  content:'';
+  position:absolute;
+  bottom:-60px;left:-30px;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.05);
+}
+.header h1{
+  font-family:'Sora',sans-serif;
+  font-size:28px;
+  font-weight:800;
+  color:#fff;
+  margin-bottom:6px;
+  position:relative;
+}
+.header p{
+  color:rgba(255,255,255,0.85);
+  font-size:14px;
+  position:relative;
+}
+
+/* HOW TO USE */
+.howto{
+  background:#fff;
+  border-radius:16px;
+  padding:20px 22px;
+  margin-bottom:22px;
+  border:1px solid var(--border);
+  box-shadow:var(--card-shadow);
+}
+.howto-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:15px;
+  color:var(--blue);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.howto-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+.howto-item{
+  background:var(--blue-light);
+  border-radius:12px;
+  padding:12px 14px;
+  border-left:3px solid var(--blue);
+}
+.howto-item h4{
+  font-size:13px;
+  font-weight:700;
+  color:var(--accent);
+  margin-bottom:4px;
+  font-family:'Sora',sans-serif;
+}
+.howto-item p{
+  font-size:13px;
+  color:var(--text);
+  line-height:1.75;
+}
+.howto-item p b{
+  color:var(--accent);
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+  background:#fff;
+  padding:6px;
+  border-radius:16px;
+  box-shadow:var(--card-shadow);
+  border:1px solid var(--border);
+}
+.tab{
+  flex:1;
+  padding:11px 8px;
+  border:none;
+  border-radius:12px;
+  background:transparent;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  color:var(--text-muted);
+  font-family:'DM Sans',sans-serif;
+  transition:all 0.18s;
+}
+.tab.active{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  color:#fff;
+  box-shadow:0 3px 12px rgba(26,115,232,0.3);
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:22px;
+  border:1px solid var(--border);
+  box-shadow:var(--card-shadow);
+  margin-bottom:20px;
+}
+
+/* SECTION TITLE */
+.section-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:16px;
+  color:var(--accent);
+  margin-bottom:16px;
+  padding-bottom:10px;
+  border-bottom:2px solid var(--blue-light);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* FORM */
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+.form-row.triple{
+  grid-template-columns:1fr 1fr 1fr;
+}
+.form-row.single{
+  grid-template-columns:1fr;
+}
+.input-group{
+  margin-bottom:12px;
+}
+label{
+  display:block;
+  margin-bottom:5px;
+  font-weight:600;
+  font-size:13px;
+  color:var(--text);
+}
+input[type=number]{
+  width:100%;
+  padding:11px 14px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-size:14px;
+  background:var(--off-white);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  transition:border 0.15s,background 0.15s;
+}
+input[type=number]:focus{
+  outline:none;
+  border-color:var(--blue);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(26,115,232,0.1);
+}
+
+/* COURSE BOX */
+.course-box{
+  background:linear-gradient(135deg,#f0f6ff,#e8f0fe);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:15px;
+  margin-top:10px;
+}
+.course-label{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  color:var(--blue);
+  margin-bottom:10px;
+}
+
+/* RETAKE BOX */
+.retake-section{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border:1.5px dashed #93c5fd;
+  border-radius:14px;
+  padding:15px;
+  margin-top:12px;
+}
+.retake-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  color:#1d4ed8;
+  margin-bottom:10px;
+}
+
+/* BUTTONS */
+.btn{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:all 0.15s;
+  margin-top:12px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  color:#fff;
+  box-shadow:0 3px 12px rgba(26,115,232,0.25);
+}
+.btn-primary:hover{opacity:0.92;transform:translateY(-1px);}
+.btn-secondary{
+  background:var(--blue-light);
+  color:var(--blue);
+}
+.btn-secondary:hover{background:#d0e4fd;}
+
+/* RESULT */
+.result{
+  margin-top:16px;
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border-left:4px solid var(--blue);
+  border-radius:14px;
+  padding:18px 20px;
+  font-size:14px;
+  line-height:2;
+  color:var(--text);
+  display:none;
+}
+.result.show{display:block;}
+.result-big{
+  font-family:'Sora',sans-serif;
+  font-size:22px;
+  font-weight:800;
+  color:var(--blue);
+}
+.result-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:4px 0;
+  border-bottom:1px solid rgba(26,115,232,0.1);
+}
+.result-row:last-child{border-bottom:none;}
+.badge{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+  font-family:'Sora',sans-serif;
+}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-red{background:#fee2e2;color:#b91c1c;}
+.badge-yellow{background:#fef9c3;color:#92400e;}
+.badge-blue{background:#dbeafe;color:#1d4ed8;}
+
+/* TARGET TABLE */
+.target-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  font-size:13px;
+}
+.target-table th{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  color:#fff;
+  padding:10px 12px;
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  text-align:left;
+}
+.target-table th:first-child{border-radius:8px 0 0 0;}
+.target-table th:last-child{border-radius:0 8px 0 0;}
+.target-table td{
+  padding:9px 12px;
+  border-bottom:1px solid var(--border);
+  color:var(--text);
+}
+.target-table tr:nth-child(even) td{background:var(--blue-light);}
+.target-table tr:last-child td:first-child{border-radius:0 0 0 8px;}
+.target-table tr:last-child td:last-child{border-radius:0 0 8px 0;}
+.target-table tr:last-child td{border-bottom:none;}
+
+.hidden{display:none;}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  margin-top:24px;
+  font-size:12px;
+  color:var(--text-muted);
+  padding:16px;
+  background:#fff;
+  border-radius:14px;
+  border:1px solid var(--border);
+}
+.footer b{color:var(--accent);}
+
+/* MOBILE */
+@media(max-width:600px){
+  .form-row,.form-row.triple{grid-template-columns:1fr;}
+  .tabs{flex-direction:column;}
+  .tab{font-size:13px;}
+  .header h1{font-size:22px;}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <h1>🎓 BRACU CGPA Calculator</h1>
+    <p>CGPA Calculator · Probation Checker · Target Planner</p>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="howto">
+    <div class="howto-title">📖 Quick Guide</div>
+    <div class="howto-grid">
+
+      <div class="howto-item">
+        <h4>🎯 CGPA Calculator</h4>
+        <p>
+          Find out exactly where your CGPA lands after this semester.<br><br>
+          <b>Step 1 —</b> Enter your current CGPA and total credits completed.<br>
+          <b>Step 2 —</b> If you're retaking any courses, enter how many. For each retake, provide its credit hours and the grade you previously earned — the calculator adjusts everything automatically.<br>
+          <b>Step 3 —</b> Enter the number of new courses you're taking this semester, hit <em>Generate</em>, then fill in each course's credit and your expected GPA.<br>
+          <b>Step 4 —</b> Hit <em>Calculate</em> and your updated cumulative CGPA appears instantly.
+        </p>
+      </div>
+
+      <div class="howto-item">
+        <h4>⚠️ Probation Checker</h4>
+        <p>
+          Find the minimum grade you need this semester to stay clear of academic probation. At BRACU, a CGPA below 2.0 puts you on probation.<br><br>
+          <b>Step 1 —</b> Enter your current CGPA, completed credits, and any retake course details.<br>
+          <b>Step 2 —</b> Generate your semester courses. Enter grades you've already received — leave the rest blank.<br>
+          <b>Step 3 —</b> Hit <em>Check</em>. If grades are pending, you'll see exactly what GPA you need in each remaining course to stay safe. If all grades are in, it tells you whether you're safe or on probation — no guesswork.
+        </p>
+      </div>
+
+      <div class="howto-item">
+        <h4>🚀 Target Checker</h4>
+        <p>
+          Set a CGPA goal and find out whether it's within reach — and exactly what it takes to get there.<br><br>
+          <b>Step 1 —</b> Enter your current CGPA and credits completed.<br>
+          <b>Step 2 —</b> Enter your remaining credits (any number — the calculator handles odd credits automatically).<br>
+          <b>Step 3 —</b> Set your target CGPA.<br>
+          <b>Step 4 —</b> Hit <em>Check</em>. You'll see a realistic grade distribution plan — how many courses need which grade to hit your target, starting from what's actually achievable.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('cgpa')">🎯 CGPA Calculator</button>
+    <button class="tab" onclick="switchTab('probation')">⚠️ Probation Checker</button>
+    <button class="tab" onclick="switchTab('target')">🚀 Target Checker</button>
+  </div>
+
+  <!-- ========== CGPA CALCULATOR ========== -->
+  <div id="tab-cgpa">
+    <div class="card">
+      <div class="section-title">📊 Current Academic Standing</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Current CGPA</label>
+          <input type="number" id="c_cg" step="0.01" placeholder="e.g. 3.20">
+        </div>
+        <div class="input-group">
+          <label>Credits Completed</label>
+          <input type="number" id="c_cr" placeholder="e.g. 6">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Number of Retake Courses</label>
+          <input type="number" id="c_retake_n" value="0" min="0" oninput="genRetakesCGPA()">
+        </div>
+        <div class="input-group">
+          <label>Number of New Courses This Semester</label>
+          <input type="number" id="c_n" min="1" placeholder="e.g. 4">
+        </div>
+      </div>
+
+      <!-- Retake Courses -->
+      <div id="c_retake_box"></div>
+
+      <button class="btn btn-secondary" onclick="genCoursesCGPA()">📋 Generate Course Inputs</button>
+      <div id="c_courses"></div>
+      <button class="btn btn-primary" onclick="calculateCGPA()">✅ Calculate New CGPA</button>
+    </div>
+    <div id="c_result" class="result"></div>
+  </div>
+
+  <!-- ========== PROBATION CHECKER ========== -->
+  <div id="tab-probation" class="hidden">
+    <div class="card">
+      <div class="section-title">⚠️ Probation Risk Analysis</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Current CGPA</label>
+          <input type="number" id="p_cg" step="0.01" placeholder="e.g. 2.10">
+        </div>
+        <div class="input-group">
+          <label>Credits Completed</label>
+          <input type="number" id="p_cr" placeholder="e.g. 30">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Number of Retake Courses</label>
+          <input type="number" id="p_retake_n" value="0" min="0" oninput="genRetakesProbation()">
+        </div>
+        <div class="input-group">
+          <label>Number of Courses This Semester</label>
+          <input type="number" id="p_n" min="1" placeholder="e.g. 4">
+        </div>
+      </div>
+
+      <!-- Retake Courses -->
+      <div id="p_retake_box"></div>
+
+      <button class="btn btn-secondary" onclick="genCoursesProbation()">📋 Generate Course Inputs</button>
+      <div id="p_courses"></div>
+      <button class="btn btn-primary" onclick="calculateProbation()">⚠️ Check Probation Risk</button>
+    </div>
+    <div id="p_result" class="result"></div>
+  </div>
+
+  <!-- ========== TARGET CHECKER ========== -->
+  <div id="tab-target" class="hidden">
+    <div class="card">
+      <div class="section-title">🚀 Target CGPA Planner</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Current CGPA</label>
+          <input type="number" id="t_cg" step="0.01" placeholder="e.g. 3.00">
+        </div>
+        <div class="input-group">
+          <label>Credits Completed</label>
+          <input type="number" id="t_cr" placeholder="e.g. 60">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Credits Remaining</label>
+          <input type="number" id="t_rem" placeholder="e.g. 45">
+        </div>
+        <div class="input-group">
+          <label>Target CGPA</label>
+          <input type="number" id="t_target" step="0.01" placeholder="e.g. 3.50">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calculateTarget()">🚀 Check Target Feasibility</button>
+    </div>
+    <div id="t_result" class="result"></div>
+  </div>
+
+  <div class="footer">
+    Designed by — <b>C M Isfar Jamee</b> (Student, BRACU) &nbsp;|&nbsp; 
+    Inspired by — <b>Rakibul Hasan Mahin (RKBM) Sir</b> (Faculty, BRACU)
+  </div>
+
+</div>
+
+<script>
+// ===== TAB SWITCHING =====
+function switchTab(tab){
+  ['cgpa','probation','target'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.add('hidden');
+  });
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.remove('hidden');
+  event.currentTarget.classList.add('active');
+  // hide results
+  ['c_result','p_result','t_result'].forEach(id=>{
+    let el=document.getElementById(id);
+    el.innerHTML='';el.classList.remove('show');
+  });
+}
+
+// ===== RETAKE HELPERS =====
+function retakeHTML(prefix,i){
+  return `
+  <div class="course-box" style="margin-top:8px;">
+    <div class="course-label">🔄 Retake Course ${i}</div>
+    <div class="form-row">
+      <div class="input-group">
+        <label>Credit</label>
+        <input type="number" id="${prefix}_rc${i}" value="3" step="0.5" min="0.5">
+      </div>
+      <div class="input-group">
+        <label>Previous CG (grade earned before)</label>
+        <input type="number" id="${prefix}_rg${i}" step="0.01" placeholder="e.g. 2.70">
+      </div>
+    </div>
+  </div>`;
+}
+
+function genRetakesCGPA(){
+  let n=parseInt(document.getElementById('c_retake_n').value)||0;
+  let box=document.getElementById('c_retake_box');
+  if(n<1){box.innerHTML='';return;}
+  let h=`<div class="retake-section"><div class="retake-title">🔄 Retake Course Details</div>`;
+  for(let i=1;i<=n;i++) h+=retakeHTML('c',i);
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+function genRetakesProbation(){
+  let n=parseInt(document.getElementById('p_retake_n').value)||0;
+  let box=document.getElementById('p_retake_box');
+  if(n<1){box.innerHTML='';return;}
+  let h=`<div class="retake-section"><div class="retake-title">🔄 Retake Course Details</div>`;
+  for(let i=1;i<=n;i++) h+=retakeHTML('p',i);
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+// ===== RETAKE ADJUSTMENT =====
+// Returns {adjustedCG, adjustedCredits}
+function applyRetakes(prefix, cg, cr, n){
+  if(!n||n<1) return {adjCG:cg, adjCR:cr};
+  
+  let totalRetakeCredits=0, totalRetakeOldPoints=0;
+  for(let i=1;i<=n;i++){
+    let rc=parseFloat(document.getElementById(`${prefix}_rc${i}`).value)||3;
+    let rg=parseFloat(document.getElementById(`${prefix}_rg${i}`).value)||0;
+    totalRetakeCredits+=rc;
+    totalRetakeOldPoints+=rc*rg;
+  }
+  // Step 1: Remove retake courses from current CGPA to get "pure" CG
+  // currentPoints = cg * cr
+  // purePoints = currentPoints - totalRetakeOldPoints
+  // pureCR = cr - totalRetakeCredits
+  let currentPoints = cg * cr;
+  let pureCR = cr - totalRetakeCredits;
+  
+  if(pureCR <= 0){
+    // Edge case: all credits are retake
+    // Adjusted CG: just treat pure as 0
+    return {adjCG:0, adjCR:0, totalRetakeCredits, totalRetakeOldPoints};
+  }
+  
+  let pureCG = (currentPoints - totalRetakeOldPoints) / pureCR;
+  
+  // Step 2: Re-compute adjusted CG including retake courses (they stay in credit count)
+  // adjCG = ((pureCG * pureCR) + totalRetakeOldPoints) / cr
+  // But since retake re-replaces the grade, the formula from the problem:
+  // The "effective" current CG after deducting retakes:
+  // ((((pureCG * totalRetakeCredits) + (retakePrevCG * totalRetakeCredits)) / (pureCR + totalRetakeCredits)*cr) - (retakePrevCG*retakeCredits)) / pureCR
+  // Simplified from user example:
+  // adjCG = ( (pureCG*pureCR + totalRetakeOldPoints) / cr * cr - totalRetakeOldPoints ) / pureCR
+  // which simplifies to pureCG (the pure CG excluding retake)
+  // And adjCR = pureCR (credits excluding retake courses)
+  
+  return {adjCG: pureCG, adjCR: pureCR, totalRetakeCredits, totalRetakeOldPoints};
+}
+
+// ===== CGPA CALCULATOR =====
+function genCoursesCGPA(){
+  let n=parseInt(document.getElementById('c_n').value)||0;
+  let box=document.getElementById('c_courses');
+  if(n<1){box.innerHTML='<p style="color:#dc2626;font-size:13px;margin-top:8px;">Please enter number of courses first.</p>';return;}
+  let h=`<div style="margin-top:14px;"><div class="section-title" style="margin-top:8px;">📚 New Courses This Semester</div>`;
+  for(let i=1;i<=n;i++){
+    h+=`<div class="course-box" style="margin-bottom:10px;">
+      <div class="course-label">Course ${i}</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Credit</label>
+          <input type="number" id="c_gc${i}" value="3" step="0.5" min="0.5">
+        </div>
+        <div class="input-group">
+          <label>Expected GPA</label>
+          <input type="number" id="c_gg${i}" step="0.01" placeholder="0.00 – 4.00">
+        </div>
+      </div>
+    </div>`;
+  }
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+function calculateCGPA(){
+  let cg=parseFloat(document.getElementById('c_cg').value);
+  let cr=parseFloat(document.getElementById('c_cr').value);
+  let rn=parseInt(document.getElementById('c_retake_n').value)||0;
+  let n=parseInt(document.getElementById('c_n').value)||0;
+  let res=document.getElementById('c_result');
+
+  if(isNaN(cg)||isNaN(cr)||n<1){
+    showResult(res,`<span style="color:var(--red);">⚠️ Please fill in all required fields and generate courses first.</span>`);
+    return;
+  }
+
+  let {adjCG, adjCR}=applyRetakes('c', cg, cr, rn);
+
+  let semCredits=0, semPoints=0;
+  for(let i=1;i<=n;i++){
+    let gc=parseFloat(document.getElementById(`c_gc${i}`).value)||3;
+    let gg=parseFloat(document.getElementById(`c_gg${i}`).value)||0;
+    semCredits+=gc;
+    semPoints+=gc*gg;
+  }
+
+  let newCGPA=(adjCG*adjCR + semPoints)/(adjCR+semCredits);
+  let totalCredits=adjCR+semCredits;
+
+  let badge=cgpaBadge(newCGPA);
+
+  showResult(res,`
+    <div class="result-row">
+      <span>🎯 New CGPA</span>
+      <span class="result-big">${newCGPA.toFixed(2)}</span>
+      <span class="badge ${badge.cls}">${badge.label}</span>
+    </div>
+    <div class="result-row"><span>📚 Total Credits After Semester</span><b>${totalCredits.toFixed(1)}</b></div>
+    <div class="result-row"><span>📖 Semester Credits</span><b>${semCredits.toFixed(1)}</b></div>
+    ${rn>0?`<div class="result-row"><span>🔄 Retake Courses Adjusted</span><b>${rn} course(s)</b></div>`:''}
+  `);
+}
+
+// ===== PROBATION CHECKER =====
+function genCoursesProbation(){
+  let n=parseInt(document.getElementById('p_n').value)||0;
+  let box=document.getElementById('p_courses');
+  if(n<1){box.innerHTML='<p style="color:#dc2626;font-size:13px;margin-top:8px;">Please enter number of courses first.</p>';return;}
+  let h=`<div style="margin-top:14px;"><div class="section-title" style="margin-top:8px;">📚 Courses This Semester</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Leave GPA blank if you haven't gotten that grade yet — we'll calculate what you need in those courses.</p>`;
+  for(let i=1;i<=n;i++){
+    h+=`<div class="course-box" style="margin-bottom:10px;">
+      <div class="course-label">Course ${i}</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Credit</label>
+          <input type="number" id="p_gc${i}" value="3" step="0.5" min="0.5">
+        </div>
+        <div class="input-group">
+          <label>GPA Obtained (leave blank if unknown)</label>
+          <input type="number" id="p_gg${i}" step="0.01" placeholder="blank = not yet graded">
+        </div>
+      </div>
+    </div>`;
+  }
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+function calculateProbation(){
+  let cg=parseFloat(document.getElementById('p_cg').value);
+  let cr=parseFloat(document.getElementById('p_cr').value);
+  let rn=parseInt(document.getElementById('p_retake_n').value)||0;
+  let n=parseInt(document.getElementById('p_n').value)||0;
+  let res=document.getElementById('p_result');
+
+  if(isNaN(cg)||isNaN(cr)||n<1){
+    showResult(res,`<span style="color:var(--red);">⚠️ Please fill in all required fields and generate courses first.</span>`);
+    return;
+  }
+
+  let {adjCG, adjCR}=applyRetakes('p', cg, cr, rn);
+
+  let knownCredits=0, knownPoints=0;
+  let unknownCredits=0;
+
+  for(let i=1;i<=n;i++){
+    let gc=parseFloat(document.getElementById(`p_gc${i}`).value)||3;
+    let gg=document.getElementById(`p_gg${i}`).value.trim();
+    if(gg!==''){
+      knownCredits+=gc;
+      knownPoints+=gc*parseFloat(gg);
+    } else {
+      unknownCredits+=gc;
+    }
+  }
+
+  let totalCredits=adjCR+knownCredits+unknownCredits;
+  let currentPoints=adjCG*adjCR+knownPoints;
+
+  if(unknownCredits===0){
+    // All grades known — just compute final CGPA
+    let finalCGPA=(currentPoints)/(totalCredits);
+    let safe=finalCGPA>=2.0;
+    let badge=cgpaBadge(finalCGPA);
+    showResult(res,`
+      <div class="result-row"><span>📊 Final CGPA (all grades known)</span><span class="result-big">${finalCGPA.toFixed(2)}</span></div>
+      <div class="result-row">
+        <span>Probation Status</span>
+        <span class="badge ${safe?'badge-green':'badge-red'}">${safe?'✅ Safe — Not on Probation':'❌ ON PROBATION'}</span>
+      </div>
+      ${!safe?`<div class="result-row"><span style="color:var(--red);">Your CGPA is below 2.0. You are at risk of academic probation.</span></div>`:''}
+    `);
+    return;
+  }
+
+  // Some grades unknown — calculate required GPA
+  let neededPoints=2.0*totalCredits - currentPoints;
+  let reqGPA=neededPoints/unknownCredits;
+
+  let msg='', badge2='badge-blue';
+  if(reqGPA>4){
+    msg='❌ Impossible to avoid probation even with perfect grades in remaining courses.';
+    badge2='badge-red';
+  } else if(reqGPA<=0){
+    msg='✅ You are already safe from probation regardless of remaining grades!';
+    badge2='badge-green';
+  } else {
+    let gradeGuide=gradeFromGPA(reqGPA);
+    msg=`You need at least <b>${gradeGuide.grade}</b> (≈${gradeGuide.marks} marks) in EACH ungraded course.`;
+    badge2=reqGPA>=3.3?'badge-yellow':reqGPA>=2.0?'badge-blue':'badge-green';
+  }
+
+  showResult(res,`
+    <div class="result-row"><span>⚠️ Required GPA in Remaining ${unknownCredits} credits</span><span class="result-big">${Math.max(0,reqGPA).toFixed(2)}</span></div>
+    <div class="result-row"><span class="badge ${badge2}" style="font-size:13px;padding:5px 14px;">${msg}</span></div>
+    <div class="result-row"><span>📊 Known GPA so far (combined)</span><b>${((currentPoints)/(adjCR+knownCredits)).toFixed(2)}</b></div>
+    ${rn>0?`<div class="result-row"><span>🔄 Retake Adjustment Applied</span><b>${rn} course(s)</b></div>`:''}
+  `);
+}
+
+// ===== TARGET CHECKER =====
+const GRADE_SCALE=[
+  {gpa:4.0,label:'A / A+',marks:'90 – 100'},
+  {gpa:3.7,label:'A−',marks:'85 – 89'},
+  {gpa:3.3,label:'B+',marks:'80 – 84'},
+  {gpa:3.0,label:'B',marks:'75 – 79'},
+  {gpa:2.7,label:'B−',marks:'70 – 74'},
+  {gpa:2.3,label:'C+',marks:'65 – 69'},
+  {gpa:2.0,label:'C',marks:'60 – 64'},
+  {gpa:1.7,label:'C−',marks:'57 – 59'},
+  {gpa:1.3,label:'D+',marks:'55 – 56'},
+  {gpa:1.0,label:'D',marks:'52 – 54'},
+  {gpa:0.7,label:'D−',marks:'50 – 51'},
+];
+
+// Returns next grade tier strictly above reqGPA
+function nextGradeTier(reqGPA){
+  for(let g of GRADE_SCALE){
+    if(g.gpa > reqGPA+0.001) return g;
+  }
+  return GRADE_SCALE[0];
+}
+
+function calculateTarget(){
+  let cg=parseFloat(document.getElementById('t_cg').value);
+  let cr=parseFloat(document.getElementById('t_cr').value);
+  let rem=parseFloat(document.getElementById('t_rem').value);
+  let target=parseFloat(document.getElementById('t_target').value);
+  let res=document.getElementById('t_result');
+
+  if(isNaN(cg)||isNaN(cr)||isNaN(rem)||isNaN(target)){
+    showResult(res,`<span style="color:var(--red);">Please fill in all fields before checking.</span>`);
+    return;
+  }
+  if(target>4||target<0){
+    showResult(res,`<span style="color:var(--red);">Target CGPA must be between 0.0 and 4.0.</span>`);
+    return;
+  }
+  if(rem<=0){
+    showResult(res,`<span style="color:var(--red);">Remaining credits must be greater than zero.</span>`);
+    return;
+  }
+
+  // Handle remainder: decompose rem into 3-credit and 2-credit courses
+  let rem3=Math.floor(rem/3), rem2=0, totalRemCR=rem;
+  let r=rem%3;
+  if(r===1){ rem3=Math.floor(rem/3)-1; rem2=2; }
+  else if(r===2){ rem2=1; }
+  let totalCourses=rem3+rem2;
+  // effective total remaining credits stays as rem (rem3*3 + rem2*2 = rem)
+
+  let totalCR=cr+rem;
+  let neededPoints=target*totalCR - cg*cr;
+  let reqGPA=neededPoints/rem;
+
+  if(reqGPA>4){
+    showResult(res,`
+      <div class="result-row"><span>Target CGPA</span><b>${target.toFixed(2)}</b></div>
+      <div class="result-row"><span>GPA needed across remaining ${rem} credits</span><span class="result-big" style="color:var(--red);">${reqGPA.toFixed(2)}</span></div>
+      <div class="result-row"><span class="badge badge-red">Target is not achievable — even a perfect 4.0 in every remaining course falls short. Consider revising your goal.</span></div>
+    `);
+    return;
+  }
+
+  if(reqGPA<=0){
+    showResult(res,`
+      <div class="result-row"><span>Target CGPA</span><b>${target.toFixed(2)}</b></div>
+      <div class="result-row"><span class="badge badge-green">You've already crossed this target. Your current CGPA is good enough — keep it up!</span></div>
+    `);
+    return;
+  }
+
+  // Find the focus tier — the grade just above reqGPA (what they actually need to aim for)
+  let focusTier=nextGradeTier(reqGPA);
+
+  // Build distribution table — only show grades AT or ABOVE reqGPA, max = focusTier + 2 tiers above
+  // Show grades from reqGPA's tier up to focusTier+2 (not always A/A+)
+  let eligibleGrades=GRADE_SCALE.filter(g=>g.gpa>=reqGPA-0.001);
+  // Cap: show max 5 rows, starting from the one just meeting requirement
+  let showGrades=eligibleGrades.slice(0, Math.min(5, eligibleGrades.length));
+
+  let rows='';
+  for(let g of showGrades){
+    if(g.gpa < reqGPA-0.001) continue;
+    // How many 3-cr courses at this grade, rest at minimum reqGPA?
+    // Points from 3-cr courses at g.gpa: x*3*g.gpa
+    // Points from 2-cr courses at reqGPA: rem2*2*reqGPA
+    // Points from remaining 3-cr courses at reqGPA: (rem3-x)*3*reqGPA
+    // Total = neededPoints
+    // x*3*g.gpa + rem2*2*reqGPA + (rem3-x)*3*reqGPA = neededPoints
+    // x*(3*g.gpa - 3*reqGPA) = neededPoints - rem2*2*reqGPA - rem3*3*reqGPA
+    let basePoints= rem2*2*reqGPA + rem3*3*reqGPA;
+    let diff=3*(g.gpa-reqGPA);
+    let xNeed=diff>0.001 ? Math.ceil((neededPoints-basePoints)/diff) : rem3;
+    if(xNeed<0) xNeed=0;
+    if(xNeed>rem3) continue; // can't fit even with this grade
+
+    let restGPA3=xNeed<rem3
+      ? (neededPoints - xNeed*3*g.gpa - rem2*2*reqGPA)/((rem3-xNeed)*3)
+      : null;
+
+    let restStr='';
+    if(restGPA3!==null && restGPA3>0.01){
+      let rg=gradeFromGPA(restGPA3);
+      restStr=`remaining ${(rem3-xNeed)*3 + rem2*2} cr → avg <b>${restGPA3.toFixed(2)}</b> (${rg.grade})`;
+    } else if(restGPA3!==null){
+      restStr=`remaining credits → any grade works`;
+    } else {
+      restStr=`all ${rem} remaining credits at this grade`;
+    }
+
+    let isFocus=g.gpa===focusTier.gpa;
+    rows+=`<tr ${isFocus?'style="background:#e8f0fe;"':''}>
+      <td><b>${g.label}</b>${isFocus?' <span class="badge badge-blue" style="font-size:10px;padding:2px 7px;">focus</span>':''}</td>
+      <td>${g.marks}</td>
+      <td>${g.gpa.toFixed(1)}</td>
+      <td>${xNeed} course${xNeed!==1?'s':''} × ${g.gpa>=reqGPA-0.001?'3 cr':''}</td>
+      <td style="font-size:12px;">${restStr}</td>
+    </tr>`;
+  }
+
+  let courseNote=r===0
+    ? `${rem3} course${rem3!==1?'s':''} × 3 cr`
+    : r===1
+      ? `${rem3} course${rem3!==1?'s':''} × 3 cr  +  2 courses × 2 cr`
+      : `${rem3} course${rem3!==1?'s':''} × 3 cr  +  1 course × 2 cr`;
+
+  let badge=cgpaBadge(reqGPA);
+  let focusMsg=`To hit <b>${target.toFixed(2)}</b>, your minimum average GPA across remaining courses is <b>${reqGPA.toFixed(2)}</b>. In practice, aim for <b>${focusTier.label} (${focusTier.gpa.toFixed(1)})</b> — that's your real target grade.`;
+
+  showResult(res,`
+    <div class="result-row"><span>Target CGPA</span><span class="result-big">${target.toFixed(2)}</span></div>
+    <div class="result-row"><span>Minimum avg GPA needed</span><b>${reqGPA.toFixed(2)}</b><span class="badge ${badge.cls}">${badge.label}</span></div>
+    <div class="result-row"><span>Remaining credits breakdown</span><b>${courseNote}</b></div>
+    <div style="margin:12px 0;padding:12px 14px;background:var(--blue-light);border-radius:10px;font-size:13px;line-height:1.7;color:var(--text);">${focusMsg}</div>
+    <hr style="margin:10px 0;border-color:var(--border);">
+    <p style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;">Grade Distribution — What You Need & Where</p>
+    <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Each row shows: if you score this grade in X courses, what's left to manage in the rest. The <span style="background:#e8f0fe;padding:1px 5px;border-radius:4px;font-weight:600;">focus</span> row is your realistic aim.</p>
+    <div style="overflow-x:auto;">
+    <table class="target-table">
+      <thead><tr><th>Grade</th><th>Marks</th><th>GPA</th><th>Courses at This Grade</th><th>Rest of Credits</th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="5" style="color:var(--text-muted);">No viable distribution found.</td></tr>'}</tbody>
+    </table>
+    </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;">This is a planning guide — these are floors, not ceilings. The better you do in early courses, the more breathing room you earn later.</p>
+  `);
+}
+
+// ===== HELPERS =====
+function showResult(el, html){
+  el.innerHTML=html;
+  el.classList.add('show');
+}
+
+function cgpaBadge(cg){
+  if(cg>=3.7) return {cls:'badge-green',label:'Excellent'};
+  if(cg>=3.0) return {cls:'badge-blue',label:'Good Standing'};
+  if(cg>=2.0) return {cls:'badge-yellow',label:'Satisfactory'};
+  return {cls:'badge-red',label:'At Risk'};
+}
+
+function gradeFromGPA(gpa){
+  if(gpa>=4.0) return {grade:'A/A+ (4.0)',marks:'90+'};
+  if(gpa>=3.7) return {grade:'A- (3.7)',marks:'85–89'};
+  if(gpa>=3.3) return {grade:'B+ (3.3)',marks:'80–84'};
+  if(gpa>=3.0) return {grade:'B (3.0)',marks:'75–79'};
+  if(gpa>=2.7) return {grade:'B- (2.7)',marks:'70–74'};
+  if(gpa>=2.3) return {grade:'C+ (2.3)',marks:'65–69'};
+  if(gpa>=2.0) return {grade:'C (2.0)',marks:'60–64'};
+  if(gpa>=1.7) return {grade:'C- (1.7)',marks:'57–59'};
+  if(gpa>=1.3) return {grade:'D+ (1.3)',marks:'55–56'};
+  if(gpa>=1.0) return {grade:'D (1.0)',marks:'52–54'};
+  if(gpa>=0.7) return {grade:'D- (0.7)',marks:'50–51'};
+  return {grade:'F (0.0)',marks:'<50'};
+}
+</script>
+</body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRACU CGPA Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --blue:#1a73e8;
+  --blue-dark:#1557b0;
+  --blue-light:#e8f0fe;
+  --blue-mid:#4a90d9;
+  --white:#ffffff;
+  --off-white:#f5f8ff;
+  --text:#111827;
+  --text-muted:#4b5563;
+  --border:#cdd9f0;
+  --accent:#0f4c81;
+  --green:#16a34a;
+  --red:#dc2626;
+  --yellow:#d97706;
+  --card-shadow:0 4px 24px rgba(26,115,232,0.10);
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:linear-gradient(135deg,#e8f0fe 0%,#f0f6ff 50%,#dbeafe 100%);
+  min-height:100vh;
+  padding:24px 16px;
+  color:var(--text);
+}
+
+.wrapper{
+  max-width:860px;
+  margin:auto;
+}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  border-radius:20px;
+  padding:32px 28px;
+  text-align:center;
+  margin-bottom:24px;
+  box-shadow:0 8px 32px rgba(26,115,232,0.25);
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';
+  position:absolute;
+  top:-40px;right:-40px;
+  width:180px;height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.07);
+}
+.header::after{
+  content:'';
+  position:absolute;
+  bottom:-60px;left:-30px;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.05);
+}
+.header h1{
+  font-family:'Sora',sans-serif;
+  font-size:28px;
+  font-weight:800;
+  color:#fff;
+  margin-bottom:6px;
+  position:relative;
+}
+.header p{
+  color:rgba(255,255,255,0.85);
+  font-size:14px;
+  position:relative;
+}
+
+/* HOW TO USE */
+.howto{
+  background:#fff;
+  border-radius:16px;
+  padding:20px 22px;
+  margin-bottom:22px;
+  border:1px solid var(--border);
+  box-shadow:var(--card-shadow);
+}
+.howto-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:15px;
+  color:var(--blue);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.howto-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+.howto-item{
+  background:var(--blue-light);
+  border-radius:12px;
+  padding:12px 14px;
+  border-left:3px solid var(--blue);
+}
+.howto-item h4{
+  font-size:13px;
+  font-weight:700;
+  color:var(--accent);
+  margin-bottom:4px;
+  font-family:'Sora',sans-serif;
+}
+.howto-item p{
+  font-size:13px;
+  color:var(--text);
+  line-height:1.75;
+}
+.howto-item p b{
+  color:var(--accent);
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+  background:#fff;
+  padding:6px;
+  border-radius:16px;
+  box-shadow:var(--card-shadow);
+  border:1px solid var(--border);
+}
+.tab{
+  flex:1;
+  padding:11px 8px;
+  border:none;
+  border-radius:12px;
+  background:transparent;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  color:var(--text-muted);
+  font-family:'DM Sans',sans-serif;
+  transition:all 0.18s;
+}
+.tab.active{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  color:#fff;
+  box-shadow:0 3px 12px rgba(26,115,232,0.3);
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:22px;
+  border:1px solid var(--border);
+  box-shadow:var(--card-shadow);
+  margin-bottom:20px;
+}
+
+/* SECTION TITLE */
+.section-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:16px;
+  color:var(--accent);
+  margin-bottom:16px;
+  padding-bottom:10px;
+  border-bottom:2px solid var(--blue-light);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* FORM */
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+.form-row.triple{
+  grid-template-columns:1fr 1fr 1fr;
+}
+.form-row.single{
+  grid-template-columns:1fr;
+}
+.input-group{
+  margin-bottom:12px;
+}
+label{
+  display:block;
+  margin-bottom:5px;
+  font-weight:600;
+  font-size:13px;
+  color:var(--text);
+}
+input[type=number]{
+  width:100%;
+  padding:11px 14px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-size:14px;
+  background:var(--off-white);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  transition:border 0.15s,background 0.15s;
+}
+input[type=number]:focus{
+  outline:none;
+  border-color:var(--blue);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(26,115,232,0.1);
+}
+
+/* COURSE BOX */
+.course-box{
+  background:linear-gradient(135deg,#f0f6ff,#e8f0fe);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:15px;
+  margin-top:10px;
+}
+.course-label{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  color:var(--blue);
+  margin-bottom:10px;
+}
+
+/* RETAKE BOX */
+.retake-section{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border:1.5px dashed #93c5fd;
+  border-radius:14px;
+  padding:15px;
+  margin-top:12px;
+}
+.retake-title{
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  color:#1d4ed8;
+  margin-bottom:10px;
+}
+
+/* BUTTONS */
+.btn{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:all 0.15s;
+  margin-top:12px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  color:#fff;
+  box-shadow:0 3px 12px rgba(26,115,232,0.25);
+}
+.btn-primary:hover{opacity:0.92;transform:translateY(-1px);}
+.btn-secondary{
+  background:var(--blue-light);
+  color:var(--blue);
+}
+.btn-secondary:hover{background:#d0e4fd;}
+
+/* RESULT */
+.result{
+  margin-top:16px;
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border-left:4px solid var(--blue);
+  border-radius:14px;
+  padding:18px 20px;
+  font-size:14px;
+  line-height:2;
+  color:var(--text);
+  display:none;
+}
+.result.show{display:block;}
+.result-big{
+  font-family:'Sora',sans-serif;
+  font-size:22px;
+  font-weight:800;
+  color:var(--blue);
+}
+.result-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:4px 0;
+  border-bottom:1px solid rgba(26,115,232,0.1);
+}
+.result-row:last-child{border-bottom:none;}
+.badge{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+  font-family:'Sora',sans-serif;
+}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-red{background:#fee2e2;color:#b91c1c;}
+.badge-yellow{background:#fef9c3;color:#92400e;}
+.badge-blue{background:#dbeafe;color:#1d4ed8;}
+
+/* TARGET TABLE */
+.target-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  font-size:13px;
+}
+.target-table th{
+  background:linear-gradient(135deg,#1a73e8,#0f4c81);
+  color:#fff;
+  padding:10px 12px;
+  font-family:'Sora',sans-serif;
+  font-weight:700;
+  text-align:left;
+}
+.target-table th:first-child{border-radius:8px 0 0 0;}
+.target-table th:last-child{border-radius:0 8px 0 0;}
+.target-table td{
+  padding:9px 12px;
+  border-bottom:1px solid var(--border);
+  color:var(--text);
+}
+.target-table tr:nth-child(even) td{background:var(--blue-light);}
+.target-table tr:last-child td:first-child{border-radius:0 0 0 8px;}
+.target-table tr:last-child td:last-child{border-radius:0 0 8px 0;}
+.target-table tr:last-child td{border-bottom:none;}
+
+.hidden{display:none;}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  margin-top:24px;
+  font-size:12px;
+  color:var(--text-muted);
+  padding:16px;
+  background:#fff;
+  border-radius:14px;
+  border:1px solid var(--border);
+}
+.footer b{color:var(--accent);}
+
+/* MOBILE */
+@media(max-width:600px){
+  .form-row,.form-row.triple{grid-template-columns:1fr;}
+  .tabs{flex-direction:column;}
+  .tab{font-size:13px;}
+  .header h1{font-size:22px;}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <h1>🎓 BRACU CGPA Calculator</h1>
+    <p>CGPA Calculator · Probation Checker · Target Planner</p>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="howto">
+    <div class="howto-title">📖 Quick Guide</div>
+    <div class="howto-grid">
+
+      <div class="howto-item">
+        <h4>🎯 CGPA Calculator</h4>
+        <p>
+          Find out exactly where your CGPA lands after this semester.<br><br>
+          <b>Step 1 —</b> Enter your current CGPA and total credits completed.<br>
+          <b>Step 2 —</b> If you're retaking any courses, enter how many. For each retake, provide its credit hours and the grade you previously earned — the calculator adjusts everything automatically.<br>
+          <b>Step 3 —</b> Enter the number of new courses you're taking this semester, hit <em>Generate</em>, then fill in each course's credit and your expected GPA.<br>
+          <b>Step 4 —</b> Hit <em>Calculate</em> and your updated cumulative CGPA appears instantly.
+        </p>
+      </div>
+
+      <div class="howto-item">
+        <h4>⚠️ Probation Checker</h4>
+        <p>
+          Find the minimum grade you need this semester to stay clear of academic probation. At BRACU, a CGPA below 2.0 puts you on probation.<br><br>
+          <b>Step 1 —</b> Enter your current CGPA, completed credits, and any retake course details.<br>
+          <b>Step 2 —</b> Generate your semester courses. Enter grades you've already received — leave the rest blank.<br>
+          <b>Step 3 —</b> Hit <em>Check</em>. If grades are pending, you'll see exactly what GPA you need in each remaining course to stay safe. If all grades are in, it tells you whether you're safe or on probation — no guesswork.
+        </p>
+      </div>
+
+      <div class="howto-item">
+        <h4>🚀 Target Checker</h4>
+        <p>
+          Set a CGPA goal and find out whether it's within reach — and exactly what it takes to get there.<br><br>
+          <b>Step 1 —</b> Enter your current CGPA and credits completed.<br>
+          <b>Step 2 —</b> Enter your remaining credits (any number — the calculator handles odd credits automatically).<br>
+          <b>Step 3 —</b> Set your target CGPA.<br>
+          <b>Step 4 —</b> Hit <em>Check</em>. You'll see a realistic grade distribution plan — how many courses need which grade to hit your target, starting from what's actually achievable.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('cgpa')">🎯 CGPA Calculator</button>
+    <button class="tab" onclick="switchTab('probation')">⚠️ Probation Checker</button>
+    <button class="tab" onclick="switchTab('target')">🚀 Target Checker</button>
+  </div>
+
+  <!-- ========== CGPA CALCULATOR ========== -->
+  <div id="tab-cgpa">
+    <div class="card">
+      <div class="section-title">📊 Current Academic Standing</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Current CGPA</label>
+          <input type="number" id="c_cg" step="0.01" placeholder="e.g. 3.20">
+        </div>
+        <div class="input-group">
+          <label>Credits Completed</label>
+          <input type="number" id="c_cr" placeholder="e.g. 6">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Number of Retake Courses</label>
+          <input type="number" id="c_retake_n" value="0" min="0" oninput="genRetakesCGPA()">
+        </div>
+        <div class="input-group">
+          <label>Number of New Courses This Semester</label>
+          <input type="number" id="c_n" min="1" placeholder="e.g. 4">
+        </div>
+      </div>
+
+      <!-- Retake Courses -->
+      <div id="c_retake_box"></div>
+
+      <button class="btn btn-secondary" onclick="genCoursesCGPA()">📋 Generate Course Inputs</button>
+      <div id="c_courses"></div>
+      <button class="btn btn-primary" onclick="calculateCGPA()">✅ Calculate New CGPA</button>
+    </div>
+    <div id="c_result" class="result"></div>
+  </div>
+
+  <!-- ========== PROBATION CHECKER ========== -->
+  <div id="tab-probation" class="hidden">
+    <div class="card">
+      <div class="section-title">⚠️ Probation Risk Analysis</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Current CGPA</label>
+          <input type="number" id="p_cg" step="0.01" placeholder="e.g. 2.10">
+        </div>
+        <div class="input-group">
+          <label>Credits Completed</label>
+          <input type="number" id="p_cr" placeholder="e.g. 30">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Number of Retake Courses</label>
+          <input type="number" id="p_retake_n" value="0" min="0" oninput="genRetakesProbation()">
+        </div>
+        <div class="input-group">
+          <label>Number of Courses This Semester</label>
+          <input type="number" id="p_n" min="1" placeholder="e.g. 4">
+        </div>
+      </div>
+
+      <!-- Retake Courses -->
+      <div id="p_retake_box"></div>
+
+      <button class="btn btn-secondary" onclick="genCoursesProbation()">📋 Generate Course Inputs</button>
+      <div id="p_courses"></div>
+      <button class="btn btn-primary" onclick="calculateProbation()">⚠️ Check Probation Risk</button>
+    </div>
+    <div id="p_result" class="result"></div>
+  </div>
+
+  <!-- ========== TARGET CHECKER ========== -->
+  <div id="tab-target" class="hidden">
+    <div class="card">
+      <div class="section-title">🚀 Target CGPA Planner</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Current CGPA</label>
+          <input type="number" id="t_cg" step="0.01" placeholder="e.g. 3.00">
+        </div>
+        <div class="input-group">
+          <label>Credits Completed</label>
+          <input type="number" id="t_cr" placeholder="e.g. 60">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Credits Remaining</label>
+          <input type="number" id="t_rem" placeholder="e.g. 45">
+        </div>
+        <div class="input-group">
+          <label>Target CGPA</label>
+          <input type="number" id="t_target" step="0.01" placeholder="e.g. 3.50">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="calculateTarget()">🚀 Check Target Feasibility</button>
+    </div>
+    <div id="t_result" class="result"></div>
+  </div>
+
+  <div class="footer">
+    Designed by — <b>C M Isfar Jamee</b> (Student, BRACU) &nbsp;|&nbsp; 
+    Inspired by — <b>Rakibul Hasan Mahin (RKBM) Sir</b> (Faculty, BRACU)
+  </div>
+
+</div>
+
+<script>
+// ===== TAB SWITCHING =====
+function switchTab(tab){
+  ['cgpa','probation','target'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.add('hidden');
+  });
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.remove('hidden');
+  event.currentTarget.classList.add('active');
+  // hide results
+  ['c_result','p_result','t_result'].forEach(id=>{
+    let el=document.getElementById(id);
+    el.innerHTML='';el.classList.remove('show');
+  });
+}
+
+// ===== RETAKE HELPERS =====
+function retakeHTML(prefix,i){
+  return `
+  <div class="course-box" style="margin-top:8px;">
+    <div class="course-label">🔄 Retake Course ${i}</div>
+    <div class="form-row">
+      <div class="input-group">
+        <label>Credit</label>
+        <input type="number" id="${prefix}_rc${i}" value="3" step="0.5" min="0.5">
+      </div>
+      <div class="input-group">
+        <label>Previous CG (grade earned before)</label>
+        <input type="number" id="${prefix}_rg${i}" step="0.01" placeholder="e.g. 2.70">
+      </div>
+    </div>
+  </div>`;
+}
+
+function genRetakesCGPA(){
+  let n=parseInt(document.getElementById('c_retake_n').value)||0;
+  let box=document.getElementById('c_retake_box');
+  if(n<1){box.innerHTML='';return;}
+  let h=`<div class="retake-section"><div class="retake-title">🔄 Retake Course Details</div>`;
+  for(let i=1;i<=n;i++) h+=retakeHTML('c',i);
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+function genRetakesProbation(){
+  let n=parseInt(document.getElementById('p_retake_n').value)||0;
+  let box=document.getElementById('p_retake_box');
+  if(n<1){box.innerHTML='';return;}
+  let h=`<div class="retake-section"><div class="retake-title">🔄 Retake Course Details</div>`;
+  for(let i=1;i<=n;i++) h+=retakeHTML('p',i);
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+// ===== RETAKE ADJUSTMENT =====
+// Returns {adjustedCG, adjustedCredits}
+function applyRetakes(prefix, cg, cr, n){
+  if(!n||n<1) return {adjCG:cg, adjCR:cr};
+  
+  let totalRetakeCredits=0, totalRetakeOldPoints=0;
+  for(let i=1;i<=n;i++){
+    let rc=parseFloat(document.getElementById(`${prefix}_rc${i}`).value)||3;
+    let rg=parseFloat(document.getElementById(`${prefix}_rg${i}`).value)||0;
+    totalRetakeCredits+=rc;
+    totalRetakeOldPoints+=rc*rg;
+  }
+  // Step 1: Remove retake courses from current CGPA to get "pure" CG
+  // currentPoints = cg * cr
+  // purePoints = currentPoints - totalRetakeOldPoints
+  // pureCR = cr - totalRetakeCredits
+  let currentPoints = cg * cr;
+  let pureCR = cr - totalRetakeCredits;
+  
+  if(pureCR <= 0){
+    // Edge case: all credits are retake
+    // Adjusted CG: just treat pure as 0
+    return {adjCG:0, adjCR:0, totalRetakeCredits, totalRetakeOldPoints};
+  }
+  
+  let pureCG = (currentPoints - totalRetakeOldPoints) / pureCR;
+  
+  // Step 2: Re-compute adjusted CG including retake courses (they stay in credit count)
+  // adjCG = ((pureCG * pureCR) + totalRetakeOldPoints) / cr
+  // But since retake re-replaces the grade, the formula from the problem:
+  // The "effective" current CG after deducting retakes:
+  // ((((pureCG * totalRetakeCredits) + (retakePrevCG * totalRetakeCredits)) / (pureCR + totalRetakeCredits)*cr) - (retakePrevCG*retakeCredits)) / pureCR
+  // Simplified from user example:
+  // adjCG = ( (pureCG*pureCR + totalRetakeOldPoints) / cr * cr - totalRetakeOldPoints ) / pureCR
+  // which simplifies to pureCG (the pure CG excluding retake)
+  // And adjCR = pureCR (credits excluding retake courses)
+  
+  return {adjCG: pureCG, adjCR: pureCR, totalRetakeCredits, totalRetakeOldPoints};
+}
+
+// ===== CGPA CALCULATOR =====
+function genCoursesCGPA(){
+  let n=parseInt(document.getElementById('c_n').value)||0;
+  let box=document.getElementById('c_courses');
+  if(n<1){box.innerHTML='<p style="color:#dc2626;font-size:13px;margin-top:8px;">Please enter number of courses first.</p>';return;}
+  let h=`<div style="margin-top:14px;"><div class="section-title" style="margin-top:8px;">📚 New Courses This Semester</div>`;
+  for(let i=1;i<=n;i++){
+    h+=`<div class="course-box" style="margin-bottom:10px;">
+      <div class="course-label">Course ${i}</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Credit</label>
+          <input type="number" id="c_gc${i}" value="3" step="0.5" min="0.5">
+        </div>
+        <div class="input-group">
+          <label>Expected GPA</label>
+          <input type="number" id="c_gg${i}" step="0.01" placeholder="0.00 – 4.00">
+        </div>
+      </div>
+    </div>`;
+  }
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+function calculateCGPA(){
+  let cg=parseFloat(document.getElementById('c_cg').value);
+  let cr=parseFloat(document.getElementById('c_cr').value);
+  let rn=parseInt(document.getElementById('c_retake_n').value)||0;
+  let n=parseInt(document.getElementById('c_n').value)||0;
+  let res=document.getElementById('c_result');
+
+  if(isNaN(cg)||isNaN(cr)||n<1){
+    showResult(res,`<span style="color:var(--red);">⚠️ Please fill in all required fields and generate courses first.</span>`);
+    return;
+  }
+
+  let {adjCG, adjCR}=applyRetakes('c', cg, cr, rn);
+
+  let semCredits=0, semPoints=0;
+  for(let i=1;i<=n;i++){
+    let gc=parseFloat(document.getElementById(`c_gc${i}`).value)||3;
+    let gg=parseFloat(document.getElementById(`c_gg${i}`).value)||0;
+    semCredits+=gc;
+    semPoints+=gc*gg;
+  }
+
+  let newCGPA=(adjCG*adjCR + semPoints)/(adjCR+semCredits);
+  let totalCredits=adjCR+semCredits;
+
+  let badge=cgpaBadge(newCGPA);
+
+  showResult(res,`
+    <div class="result-row">
+      <span>🎯 New CGPA</span>
+      <span class="result-big">${newCGPA.toFixed(2)}</span>
+      <span class="badge ${badge.cls}">${badge.label}</span>
+    </div>
+    <div class="result-row"><span>📚 Total Credits After Semester</span><b>${totalCredits.toFixed(1)}</b></div>
+    <div class="result-row"><span>📖 Semester Credits</span><b>${semCredits.toFixed(1)}</b></div>
+    ${rn>0?`<div class="result-row"><span>🔄 Retake Courses Adjusted</span><b>${rn} course(s)</b></div>`:''}
+  `);
+}
+
+// ===== PROBATION CHECKER =====
+function genCoursesProbation(){
+  let n=parseInt(document.getElementById('p_n').value)||0;
+  let box=document.getElementById('p_courses');
+  if(n<1){box.innerHTML='<p style="color:#dc2626;font-size:13px;margin-top:8px;">Please enter number of courses first.</p>';return;}
+  let h=`<div style="margin-top:14px;"><div class="section-title" style="margin-top:8px;">📚 Courses This Semester</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Leave GPA blank if you haven't gotten that grade yet — we'll calculate what you need in those courses.</p>`;
+  for(let i=1;i<=n;i++){
+    h+=`<div class="course-box" style="margin-bottom:10px;">
+      <div class="course-label">Course ${i}</div>
+      <div class="form-row">
+        <div class="input-group">
+          <label>Credit</label>
+          <input type="number" id="p_gc${i}" value="3" step="0.5" min="0.5">
+        </div>
+        <div class="input-group">
+          <label>GPA Obtained (leave blank if unknown)</label>
+          <input type="number" id="p_gg${i}" step="0.01" placeholder="blank = not yet graded">
+        </div>
+      </div>
+    </div>`;
+  }
+  h+='</div>';
+  box.innerHTML=h;
+}
+
+function calculateProbation(){
+  let cg=parseFloat(document.getElementById('p_cg').value);
+  let cr=parseFloat(document.getElementById('p_cr').value);
+  let rn=parseInt(document.getElementById('p_retake_n').value)||0;
+  let n=parseInt(document.getElementById('p_n').value)||0;
+  let res=document.getElementById('p_result');
+
+  if(isNaN(cg)||isNaN(cr)||n<1){
+    showResult(res,`<span style="color:var(--red);">⚠️ Please fill in all required fields and generate courses first.</span>`);
+    return;
+  }
+
+  let {adjCG, adjCR}=applyRetakes('p', cg, cr, rn);
+
+  let knownCredits=0, knownPoints=0;
+  let unknownCredits=0;
+
+  for(let i=1;i<=n;i++){
+    let gc=parseFloat(document.getElementById(`p_gc${i}`).value)||3;
+    let gg=document.getElementById(`p_gg${i}`).value.trim();
+    if(gg!==''){
+      knownCredits+=gc;
+      knownPoints+=gc*parseFloat(gg);
+    } else {
+      unknownCredits+=gc;
+    }
+  }
+
+  let totalCredits=adjCR+knownCredits+unknownCredits;
+  let currentPoints=adjCG*adjCR+knownPoints;
+
+  if(unknownCredits===0){
+    // All grades known — just compute final CGPA
+    let finalCGPA=(currentPoints)/(totalCredits);
+    let safe=finalCGPA>=2.0;
+    let badge=cgpaBadge(finalCGPA);
+    showResult(res,`
+      <div class="result-row"><span>📊 Final CGPA (all grades known)</span><span class="result-big">${finalCGPA.toFixed(2)}</span></div>
+      <div class="result-row">
+        <span>Probation Status</span>
+        <span class="badge ${safe?'badge-green':'badge-red'}">${safe?'✅ Safe — Not on Probation':'❌ ON PROBATION'}</span>
+      </div>
+      ${!safe?`<div class="result-row"><span style="color:var(--red);">Your CGPA is below 2.0. You are at risk of academic probation.</span></div>`:''}
+    `);
+    return;
+  }
+
+  // Some grades unknown — calculate required GPA
+  let neededPoints=2.0*totalCredits - currentPoints;
+  let reqGPA=neededPoints/unknownCredits;
+
+  let msg='', badge2='badge-blue';
+  if(reqGPA>4){
+    msg='❌ Impossible to avoid probation even with perfect grades in remaining courses.';
+    badge2='badge-red';
+  } else if(reqGPA<=0){
+    msg='✅ You are already safe from probation regardless of remaining grades!';
+    badge2='badge-green';
+  } else {
+    let gradeGuide=gradeFromGPA(reqGPA);
+    msg=`You need at least <b>${gradeGuide.grade}</b> (≈${gradeGuide.marks} marks) in EACH ungraded course.`;
+    badge2=reqGPA>=3.3?'badge-yellow':reqGPA>=2.0?'badge-blue':'badge-green';
+  }
+
+  showResult(res,`
+    <div class="result-row"><span>⚠️ Required GPA in Remaining ${unknownCredits} credits</span><span class="result-big">${Math.max(0,reqGPA).toFixed(2)}</span></div>
+    <div class="result-row"><span class="badge ${badge2}" style="font-size:13px;padding:5px 14px;">${msg}</span></div>
+    <div class="result-row"><span>📊 Known GPA so far (combined)</span><b>${((currentPoints)/(adjCR+knownCredits)).toFixed(2)}</b></div>
+    ${rn>0?`<div class="result-row"><span>🔄 Retake Adjustment Applied</span><b>${rn} course(s)</b></div>`:''}
+  `);
+}
+
+// ===== TARGET CHECKER =====
+const GRADE_SCALE=[
+  {gpa:4.0,label:'A / A+',marks:'90 – 100'},
+  {gpa:3.7,label:'A−',marks:'85 – 89'},
+  {gpa:3.3,label:'B+',marks:'80 – 84'},
+  {gpa:3.0,label:'B',marks:'75 – 79'},
+  {gpa:2.7,label:'B−',marks:'70 – 74'},
+  {gpa:2.3,label:'C+',marks:'65 – 69'},
+  {gpa:2.0,label:'C',marks:'60 – 64'},
+  {gpa:1.7,label:'C−',marks:'57 – 59'},
+  {gpa:1.3,label:'D+',marks:'55 – 56'},
+  {gpa:1.0,label:'D',marks:'52 – 54'},
+  {gpa:0.7,label:'D−',marks:'50 – 51'},
+];
+
+// Returns next grade tier strictly above reqGPA
+function nextGradeTier(reqGPA){
+  for(let g of GRADE_SCALE){
+    if(g.gpa > reqGPA+0.001) return g;
+  }
+  return GRADE_SCALE[0];
+}
+
+function calculateTarget(){
+  let cg=parseFloat(document.getElementById('t_cg').value);
+  let cr=parseFloat(document.getElementById('t_cr').value);
+  let rem=parseFloat(document.getElementById('t_rem').value);
+  let target=parseFloat(document.getElementById('t_target').value);
+  let res=document.getElementById('t_result');
+
+  if(isNaN(cg)||isNaN(cr)||isNaN(rem)||isNaN(target)){
+    showResult(res,`<span style="color:var(--red);">Please fill in all fields before checking.</span>`);
+    return;
+  }
+  if(target>4||target<0){
+    showResult(res,`<span style="color:var(--red);">Target CGPA must be between 0.0 and 4.0.</span>`);
+    return;
+  }
+  if(rem<=0){
+    showResult(res,`<span style="color:var(--red);">Remaining credits must be greater than zero.</span>`);
+    return;
+  }
+
+  // Handle remainder: decompose rem into 3-credit and 2-credit courses
+  let rem3=Math.floor(rem/3), rem2=0, totalRemCR=rem;
+  let r=rem%3;
+  if(r===1){ rem3=Math.floor(rem/3)-1; rem2=2; }
+  else if(r===2){ rem2=1; }
+  let totalCourses=rem3+rem2;
+  // effective total remaining credits stays as rem (rem3*3 + rem2*2 = rem)
+
+  let totalCR=cr+rem;
+  let neededPoints=target*totalCR - cg*cr;
+  let reqGPA=neededPoints/rem;
+
+  if(reqGPA>4){
+    showResult(res,`
+      <div class="result-row"><span>Target CGPA</span><b>${target.toFixed(2)}</b></div>
+      <div class="result-row"><span>GPA needed across remaining ${rem} credits</span><span class="result-big" style="color:var(--red);">${reqGPA.toFixed(2)}</span></div>
+      <div class="result-row"><span class="badge badge-red">Target is not achievable — even a perfect 4.0 in every remaining course falls short. Consider revising your goal.</span></div>
+    `);
+    return;
+  }
+
+  if(reqGPA<=0){
+    showResult(res,`
+      <div class="result-row"><span>Target CGPA</span><b>${target.toFixed(2)}</b></div>
+      <div class="result-row"><span class="badge badge-green">You've already crossed this target. Your current CGPA is good enough — keep it up!</span></div>
+    `);
+    return;
+  }
+
+  // Find the focus tier — the grade just above reqGPA (what they actually need to aim for)
+  let focusTier=nextGradeTier(reqGPA);
+
+  // Build distribution table — only show grades AT or ABOVE reqGPA, max = focusTier + 2 tiers above
+  // Show grades from reqGPA's tier up to focusTier+2 (not always A/A+)
+  let eligibleGrades=GRADE_SCALE.filter(g=>g.gpa>=reqGPA-0.001);
+  // Cap: show max 5 rows, starting from the one just meeting requirement
+  let showGrades=eligibleGrades.slice(0, Math.min(5, eligibleGrades.length));
+
+  let rows='';
+  for(let g of showGrades){
+    if(g.gpa < reqGPA-0.001) continue;
+    // How many 3-cr courses at this grade, rest at minimum reqGPA?
+    // Points from 3-cr courses at g.gpa: x*3*g.gpa
+    // Points from 2-cr courses at reqGPA: rem2*2*reqGPA
+    // Points from remaining 3-cr courses at reqGPA: (rem3-x)*3*reqGPA
+    // Total = neededPoints
+    // x*3*g.gpa + rem2*2*reqGPA + (rem3-x)*3*reqGPA = neededPoints
+    // x*(3*g.gpa - 3*reqGPA) = neededPoints - rem2*2*reqGPA - rem3*3*reqGPA
+    let basePoints= rem2*2*reqGPA + rem3*3*reqGPA;
+    let diff=3*(g.gpa-reqGPA);
+    let xNeed=diff>0.001 ? Math.ceil((neededPoints-basePoints)/diff) : rem3;
+    if(xNeed<0) xNeed=0;
+    if(xNeed>rem3) continue; // can't fit even with this grade
+
+    let restGPA3=xNeed<rem3
+      ? (neededPoints - xNeed*3*g.gpa - rem2*2*reqGPA)/((rem3-xNeed)*3)
+      : null;
+
+    let restStr='';
+    if(restGPA3!==null && restGPA3>0.01){
+      let rg=gradeFromGPA(restGPA3);
+      restStr=`remaining ${(rem3-xNeed)*3 + rem2*2} cr → avg <b>${restGPA3.toFixed(2)}</b> (${rg.grade})`;
+    } else if(restGPA3!==null){
+      restStr=`remaining credits → any grade works`;
+    } else {
+      restStr=`all ${rem} remaining credits at this grade`;
+    }
+
+    let isFocus=g.gpa===focusTier.gpa;
+    rows+=`<tr ${isFocus?'style="background:#e8f0fe;"':''}>
+      <td><b>${g.label}</b>${isFocus?' <span class="badge badge-blue" style="font-size:10px;padding:2px 7px;">focus</span>':''}</td>
+      <td>${g.marks}</td>
+      <td>${g.gpa.toFixed(1)}</td>
+      <td>${xNeed} course${xNeed!==1?'s':''} × ${g.gpa>=reqGPA-0.001?'3 cr':''}</td>
+      <td style="font-size:12px;">${restStr}</td>
+    </tr>`;
+  }
+
+  let courseNote=r===0
+    ? `${rem3} course${rem3!==1?'s':''} × 3 cr`
+    : r===1
+      ? `${rem3} course${rem3!==1?'s':''} × 3 cr  +  2 courses × 2 cr`
+      : `${rem3} course${rem3!==1?'s':''} × 3 cr  +  1 course × 2 cr`;
+
+  let badge=cgpaBadge(reqGPA);
+  let focusMsg=`To hit <b>${target.toFixed(2)}</b>, your minimum average GPA across remaining courses is <b>${reqGPA.toFixed(2)}</b>. In practice, aim for <b>${focusTier.label} (${focusTier.gpa.toFixed(1)})</b> — that's your real target grade.`;
+
+  showResult(res,`
+    <div class="result-row"><span>Target CGPA</span><span class="result-big">${target.toFixed(2)}</span></div>
+    <div class="result-row"><span>Minimum avg GPA needed</span><b>${reqGPA.toFixed(2)}</b><span class="badge ${badge.cls}">${badge.label}</span></div>
+    <div class="result-row"><span>Remaining credits breakdown</span><b>${courseNote}</b></div>
+    <div style="margin:12px 0;padding:12px 14px;background:var(--blue-light);border-radius:10px;font-size:13px;line-height:1.7;color:var(--text);">${focusMsg}</div>
+    <hr style="margin:10px 0;border-color:var(--border);">
+    <p style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px;">Grade Distribution — What You Need & Where</p>
+    <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Each row shows: if you score this grade in X courses, what's left to manage in the rest. The <span style="background:#e8f0fe;padding:1px 5px;border-radius:4px;font-weight:600;">focus</span> row is your realistic aim.</p>
+    <div style="overflow-x:auto;">
+    <table class="target-table">
+      <thead><tr><th>Grade</th><th>Marks</th><th>GPA</th><th>Courses at This Grade</th><th>Rest of Credits</th></tr></thead>
+      <tbody>${rows||'<tr><td colspan="5" style="color:var(--text-muted);">No viable distribution found.</td></tr>'}</tbody>
+    </table>
+    </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px;">This is a planning guide — these are floors, not ceilings. The better you do in early courses, the more breathing room you earn later.</p>
+  `);
+}
+
+// ===== HELPERS =====
+function showResult(el, html){
+  el.innerHTML=html;
+  el.classList.add('show');
+}
+
+function cgpaBadge(cg){
+  if(cg>=3.7) return {cls:'badge-green',label:'Excellent'};
+  if(cg>=3.0) return {cls:'badge-blue',label:'Good Standing'};
+  if(cg>=2.0) return {cls:'badge-yellow',label:'Satisfactory'};
+  return {cls:'badge-red',label:'At Risk'};
+}
+
+function gradeFromGPA(gpa){
+  if(gpa>=4.0) return {grade:'A/A+ (4.0)',marks:'90+'};
+  if(gpa>=3.7) return {grade:'A- (3.7)',marks:'85–89'};
+  if(gpa>=3.3) return {grade:'B+ (3.3)',marks:'80–84'};
+  if(gpa>=3.0) return {grade:'B (3.0)',marks:'75–79'};
+  if(gpa>=2.7) return {grade:'B- (2.7)',marks:'70–74'};
+  if(gpa>=2.3) return {grade:'C+ (2.3)',marks:'65–69'};
+  if(gpa>=2.0) return {grade:'C (2.0)',marks:'60–64'};
+  if(gpa>=1.7) return {grade:'C- (1.7)',marks:'57–59'};
+  if(gpa>=1.3) return {grade:'D+ (1.3)',marks:'55–56'};
+  if(gpa>=1.0) return {grade:'D (1.0)',marks:'52–54'};
+  if(gpa>=0.7) return {grade:'D- (0.7)',marks:'50–51'};
+  return {grade:'F (0.0)',marks:'<50'};
+}
+</script>
+</body>
